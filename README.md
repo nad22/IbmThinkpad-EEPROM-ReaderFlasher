@@ -6,7 +6,7 @@ This project provides an Arduino-based tool to read and write the AT24RF08 EEPRO
 
 ### AT24RF08 EEPROM Chip Pinouts
 
-![AT24RF08 Pinout](24rf08%20pinout.gif)
+![AT24RF08 Pinout](docs/images/24rf08-pinout.gif)
 
 #### 8-Pin AT24RF08 Package (SOIC-8)
 ```

@@ -24,6 +24,7 @@
  * License: Educational/Recovery purposes only
  */
 
+#include <Arduino.h>
 #include <Wire.h>
 
 // I2C addresses for the four 256-byte blocks in AT24RF08 EEPROM
@@ -36,6 +37,12 @@ const int block_size = 256;
 // Buffer for write data - currently initialized with test pattern
 // Modify this array to write specific data to the EEPROM
 byte write_buffer[256];
+
+// Function declarations (Forward declarations for C++)
+void readBlock(int blockNum);
+void readAllBlocks();
+void writeBlock(int blockNum);
+void writeAllBlocks();
 
 /**
  * Setup function - runs once when Arduino starts
@@ -159,7 +166,7 @@ void readBlock(int blockNum) {
     Wire.endTransmission();             // End transmission (address is now set)
     
     // Request one byte of data from the set address
-    Wire.requestFrom(addr, 1);          // Request 1 byte from EEPROM
+    Wire.requestFrom((uint8_t)addr, (uint8_t)1);          // Request 1 byte from EEPROM
     
     // Process received data
     if (Wire.available()) {             // Check if data was received
@@ -253,7 +260,7 @@ void writeBlock(int blockNum) {
         Serial.print(i, HEX);
         Serial.print(" (");
         Serial.print((i * 100) / block_size);
-        Serial.println("%)")
+        Serial.println("%)");
       }
     } else {
       // Write error occurred - display error details
