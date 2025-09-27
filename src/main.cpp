@@ -34,8 +34,8 @@ const byte eeprom_addresses[] = {0x54, 0x55, 0x56, 0x57};
 // Size of each block in bytes (AT24RF08 has 4 blocks of 256 bytes each)
 const int block_size = 256;
 
-// Buffer for write data - currently initialized with test pattern
-// Modify this array to write specific data to the EEPROM
+// Buffer for write data - full 256 bytes (Pro Micro has enough RAM)
+// Arduino Pro Micro has 2.5KB RAM, so 256 bytes is no problem
 byte write_buffer[256];
 
 // Function declarations (Forward declarations for C++)
@@ -60,27 +60,27 @@ void setup() {
   // Short delay to ensure stable initialization
   delay(1000);
   
-  // Initialize write buffer with test pattern data
-  // Change this section to write specific data to EEPROM
+  // Initialize write buffer with test pattern data (full 256 bytes)
+  // Pro Micro has enough RAM for complete buffer
   for (int i = 0; i < 256; i++) {
     write_buffer[i] = i; // Test pattern: ascending values 0-255
     // Example alternatives:
     // write_buffer[i] = 0xFF;        // Fill with 0xFF
     // write_buffer[i] = 0x00;        // Fill with 0x00  
-    // write_buffer[i] = original[i]; // Restore from backup
+    // write_buffer[i] = backup_data[i]; // Restore from backup
   }
   
-  // Display startup message and available commands
-  Serial.println("=== IBM A22M EEPROM AT24RF08 Controller ===");
-  Serial.println("Status: Ready");
+  // Display startup message and available commands (using F() to save RAM)
+  Serial.println(F("=== IBM A22M EEPROM AT24RF08 Controller ==="));
+  Serial.println(F("Status: Ready"));
   Serial.println();
-  Serial.println("Available Commands:");
-  Serial.println("READ:  r1, r2, r3, r4 - Read blocks 1-4 individually");
-  Serial.println("       ra             - Read all blocks (complete dump)");
-  Serial.println("WRITE: w1, w2, w3, w4 - Write blocks 1-4 individually");
-  Serial.println("       wa             - Write all blocks (DANGER: overwrites all!)");
+  Serial.println(F("Available Commands:"));
+  Serial.println(F("READ:  r1, r2, r3, r4 - Read blocks 1-4 individually"));
+  Serial.println(F("       ra             - Read all blocks (complete dump)"));
+  Serial.println(F("WRITE: w1, w2, w3, w4 - Write blocks 1-4 individually"));
+  Serial.println(F("       wa             - Write all blocks (DANGER: overwrites all!)"));
   Serial.println();
-  Serial.println("Enter command:");
+  Serial.println(F("Enter command:"));
 }
 
 /**
@@ -128,9 +128,10 @@ void loop() {
     
     // INVALID COMMAND
     } else {
-      Serial.println("ERROR: Unknown command: " + command);
-      Serial.println("Valid commands: r1-r4 (read), ra (read all), w1-w4 (write), wa (write all)");
-      Serial.println("Commands are case-insensitive.");
+      Serial.print(F("ERROR: Unknown command: "));
+      Serial.println(command);
+      Serial.println(F("Valid commands: r1-r4 (read), ra (read all), w1-w4 (write), wa (write all)"));
+      Serial.println(F("Commands are case-insensitive."));
     }
   }
 }
