@@ -1,4 +1,4 @@
-# IBM A22M Password Hacking - EEPROM Restore Tool
+# IBM A22M Password Reading - EEPROM Restore Tool
 
 This project provides an Arduino-based tool to read and write the AT24RF08 EEPROM chip found in IBM ThinkPad A22M laptops. This EEPROM contains the BIOS supervisor password that can be extracted and decoded.
 
